@@ -92,7 +92,7 @@ kubectl get cronjobs
 kubectl apply -f cronjob.yaml
 ```
 ```
-kubectl get cronjobs.batch
+kubectl get cronjobs
 ```
 ```
 kubectl get pod
