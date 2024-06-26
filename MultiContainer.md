@@ -56,7 +56,6 @@ spec:
     command: ['sh', '-c', 'until getent hosts myservice; do echo waiting for myservice; sleep 2; done;']
     # Init container
 
-
 ```
 ```	
 kubectl apply -f init.yaml
@@ -67,4 +66,77 @@ kubectl get pod
 ```
 kubectl describe pod init-pod
 ```
+```
+vi svc.yaml
+```
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: myservice
+spec:
+  ports:
+    - protocol: TCP
+      port: 80       # Port to expose
+      targetPort: 8080  # Port on the pod that the service should forward to
+```
+```
+kubectl apply -f svc.yaml
+```
+```
+kubectl get pod
+```
+```
+kubectl describe pod init-pod
+```
+
+### Task 3: Init container
+```
+vi init.yaml
+```
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-pod
+spec:
+  containers:
+  - name: main-container
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: workdir
+      mountPath: /app
+    # Main application container
+
+  initContainers:
+  - name: init-container
+    image: busybox:latest
+    command: ['sh', '-c', 'echo "Init Container Completed" > /work-dir/completed.txt']
+    volumeMounts:
+    - name: workdir
+      mountPath: /work-dir
+    # Init container
+  volumes:
+  - name: workdir
+    emptyDir: {}
+
+```
+```	
+kubectl apply -f init.yaml
+```
+```
+kubectl get pod
+```
+```
+kubectl exec -it init-pod -c main-container
+```
+```
+cd /app && ls
+```
+```
+cat completed.txt
+```
+
 
