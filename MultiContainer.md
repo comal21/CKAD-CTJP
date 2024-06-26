@@ -34,6 +34,27 @@ kubectl exec -it sidecar-pod -c sidecar-container -- sh
 ```
 kubectl exec -it sidecar-pod -c main-container -- sh
 ```
+### Task 1.2: SideCar Container
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: multi-pod
+  name: multi-pod
+spec:
+  containers:
+  - image: nginx
+    name: container-1
+    ports:
+    - containerPort: 80
+  - name: container-2
+    image: busybox
+    args: 
+    - "/bin/sh"
+    - "-c"
+    - "sleep 3000"
+```
 ### Task 2: Init container
 ```
 vi init.yaml
