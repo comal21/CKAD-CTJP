@@ -113,13 +113,13 @@ kubectl describe pod init-pod
 
 ### Task 3: Init container
 ```
-vi init.yaml
+vi initctr.yaml
 ```
 ```yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: init-pod
+  name: init-container-pod
 spec:
   containers:
   - name: main-container
@@ -145,7 +145,7 @@ spec:
 
 ```
 ```	
-kubectl apply -f init.yaml
+kubectl apply -f initctr.yaml
 ```
 ```
 kubectl get pod
